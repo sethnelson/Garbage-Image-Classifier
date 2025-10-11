@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+
+# Data and models
+data/processed/
+outputs/models/
+outputs/logs/
+*.npz
+*.pt
+*.h5
