@@ -13,3 +13,5 @@ outputs/logs/
 *.npz
 *.pt
 *.h5
+*.npy
+data/**/processed/
