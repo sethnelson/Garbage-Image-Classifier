@@ -14,7 +14,7 @@ df = pd.read_csv(metadata_path)
 
 X = []
 y = df.copy().drop(columns=["filename"])
-y = pd.get_dummies(y, columns=["label"], drop_first=True, dtype=float)
+y = pd.get_dummies(y, columns=["label"], drop_first=False, dtype=float)
 
 rot_angles = [0, 90, 180, 270]
 

@@ -9,7 +9,7 @@ metadata_path = "../data/small_test_set/small_test_set.csv"
 images_root = "../data/small_test_set"
 output_dir = "../data/small_test_set/processed"
 
-resize_shape = (256, 256)  # (width, height)
+# resize_shape = (256, 256)  # (width, height)
 convert_to_grayscale = False  # optional: reduces to 1 channel
 
 os.makedirs(output_dir, exist_ok=True)
@@ -40,7 +40,7 @@ for _, row in tqdm(df.iterrows(), total=len(df), desc="Processing images"):
         else:
             img = img.convert("RGB")
 
-        img = img.resize(resize_shape)
+        # img = img.resize(resize_shape)
 
         img_array = np.array(img, dtype=np.float32) / 255.0  # normalize [0,1]
         img_flat = img_array.flatten()
