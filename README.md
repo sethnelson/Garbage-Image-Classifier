@@ -11,6 +11,4 @@ Dillon Philips @dillonphillips1
 Braeden Watkins @bwatkins17
 
 # How To Run
-The data has already been preprocessed into their corresponding folders so the model can be ran by calling python .\train.py
-
-The entire order or operations is: preprocess.py, split.py, pca.py, train.py
+The entire order of operations is: python preprocess.py, python split.py, python pca.py, python train.py
