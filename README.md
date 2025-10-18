@@ -5,7 +5,9 @@
 Joseph Kolly @jpkolly
 
 Seth Nelson @sethnelson
-Dillon Philips
+
+Dillon Philips @dillonphillips1
+
 Braeden Watkins @bwatkins17
 
 # How To Run
