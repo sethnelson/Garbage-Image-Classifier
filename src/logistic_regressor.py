@@ -57,7 +57,7 @@ def update_params(w, b, dw, db, lr):
 def train(X, y, lr, n_epochs, lam=None, reg=None, X_val=None, y_val=None):
     m = X.shape[1] # extract size of m from nxm matrix
     n = y.shape[1] #number of classes
-    w, b = initialize_params(n, m) # starting set of random weights
+    w, b = initialize_params(n, m, 0) # starting set of random weights
     # containers for cost histories
     val_costs = []
     train_costs = []
