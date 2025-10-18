@@ -5,4 +5,9 @@ A machine learning model for classifying images of waste into categories of card
 Joseph Kolly
 Seth Nelson @sethnelson
 Dillon Philips
-Braeden Watkins 
+Braeden Watkins @bwatkins17
+
+# How To Run
+The data has already been preprocessed into their corresponding folders so the model can be ran by calling python .\train.py
+
+The entire order or operations is: preprocess.py, split.py, pca.py, train.py
