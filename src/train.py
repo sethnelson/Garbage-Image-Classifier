@@ -5,6 +5,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
+import shap
 
 split_data = "../data/processed"
 pca_cache = "../data/pca_cache"
@@ -29,12 +30,12 @@ model = LogisticRegression(
 
 model.fit(X_train, y_train) # train and evaluate PCA
 
-#these scores show how well the model did vs how well it preforms on unseen data
+#these scores show how well the model did vs how well it performs on unseen data
 train_acc = model.score(X_train, y_train) 
 test_acc = model.score(X_test, y_test)
 
-print(f"PCA Train accuracy: {train_acc}")
-print(f"PCA Test accuracy:  {test_acc}")
+print(f"Train accuracy: {train_acc}")
+print(f"Test accuracy:  {test_acc}")
 
 #confusion matrix breaks down correctness, this breaks down what classes the model confuses with others
 y_pred = model.predict(X_test)
@@ -72,8 +73,8 @@ print(f"\n Confusion matrix saved to: {output_path}")
 
 explainer = shap.LinearExplainer(model, X_train[:100]) # create a shap explainer
 
-shapValues = explainer.shap_values(X_test[:100]) # calculate the shap values for the test samples
+shap_values = explainer.shap_values(X_test[:100]) # calculate the shap values for the test samples
 
 shap.summary_plot(shap_values, X_test[:100]) # create a vizualization showing the results
 
-plt.savefid("shapSummary.png") # save the plot as a png
+plt.savefig("shapSummary.png") # save the plot as a png
