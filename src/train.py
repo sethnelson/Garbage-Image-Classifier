@@ -53,7 +53,7 @@ disp.plot(cmap='Blues', xticks_rotation='vertical')
 plt.gcf().set_size_inches(7, 6)
 
 # adds a clear title and axis labels 
-plt.title(f"Confusion Matrix – Logistic Regression (PCA Features)\nTest Accuracy: {test_acc:.2f}")
+plt.title(f"Confusion Matrix – Logistic Regression (PCA Features)\nTest Accuracy: {test_acc* 100:.1f}%")
 plt.xlabel("Predicted Label")
 plt.ylabel("Actual Label")
 
