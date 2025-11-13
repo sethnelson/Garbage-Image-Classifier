@@ -16,8 +16,8 @@ y_test = np.load(split_data + "/y_test.npy")
 
 # use incrementalPCA instead of PCA to avoid integer overflow
 pca = IncrementalPCA(
-    n_components=155, # 90% explainability after graphing explained variance ratio #155
-    batch_size=1000,
+    n_components=64, # 90% explainability after graphing explained variance ratio #155
+    batch_size=500,
     whiten=True)   # appreciably boosts performance
 X_train_pca = pca.fit_transform(X_train)
 X_test_pca  = pca.transform(X_test)

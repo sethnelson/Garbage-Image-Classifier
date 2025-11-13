@@ -22,9 +22,9 @@ y_train = np.argmax(y_train, axis=1)
 y_test = np.argmax(y_test, axis=1)
 
 model = LogisticRegression(
-    C=0.36,         # determined by running 5-fold CV
+    C=0.36,         # determined by running 5-fold CV #.36
     penalty='l2',   # using ridge to combat overfitting, lasso unavailable for multiclass
-    max_iter=600,   # some reasonable value
+    max_iter=600,   # some reasonable value #600
     solver="lbfgs", # default solver acceptable
     n_jobs=-1)
 
@@ -53,9 +53,9 @@ disp.plot(cmap='Blues', xticks_rotation='vertical')
 plt.gcf().set_size_inches(7, 6)
 
 # adds a clear title and axis labels 
-plt.title(f"Confusion Matrix – Logistic Regression (PCA Features)\nTest Accuracy: {test_acc* 100:.1f}%")
-plt.xlabel("Predicted Label")
-plt.ylabel("Actual Label")
+plt.title(f"Confusion Matrix - Logistic Regression\nTest Accuracy: {test_acc* 100:.1f}%")
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
 
 plt.tight_layout(pad=2.0)# needed for more expanded view, cant see the outside labels
 
