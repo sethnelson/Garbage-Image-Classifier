@@ -18,13 +18,15 @@ class GarbageDataset(Dataset):
 # TRAIN TRANSFORMS https://docs.pytorch.org/vision/stable/transforms.html
 # https://docs.pytorch.org/vision/stable/auto_examples/transforms/plot_transforms_getting_started.html#sphx-glr-auto-examples-transforms-plot-transforms-getting-started-py
 train_transforms = v2.Compose([ # data augmentation for train images
-    #v2.Grayscale(num_output_channels=1),
-    v2.RandomResizedCrop(128, scale=(1.0, 1.0)),
+    #v2.Grayscale(num_output_channels=1), MobileNetV3 not friendly with grayscale
+    v2.RandomResizedCrop(128, scale=(0.8, 1.0)),
     v2.RandomHorizontalFlip(),
-    v2.RandomRotation(degrees=(0, 180)),
+    # v2.RandomVerticalFlip(p=0.2),
+    v2.ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, hue=0.1),
+    v2.RandomRotation(degrees=(0, 45)),
     v2.ToImage(),
     v2.ToDtype(torch.float32, scale=True),
-    v2.Normalize(mean=[0.485], std=[0.229]),
+    v2.Normalize(mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225]),
 ])
 
 # VALIDATION + TEST TRANSFORMS
@@ -33,7 +35,7 @@ VT_transforms = v2.Compose([ # data normalization for validation and test images
     v2.Resize((128,128)),
     v2.ToImage(),
     v2.ToDtype(torch.float32, scale=True),
-    v2.Normalize(mean=[0.485], std=[0.229])
+    v2.Normalize(mean=[0.485,0.456,0.406], std=[0.229,0.224,0.225])
 ])
 
 #VISUALIZE OUTPUT OF TRANSFORMS
