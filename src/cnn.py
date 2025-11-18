@@ -24,12 +24,13 @@ def eval_model(model, test_loader, critereon):
             iterations += 1
             # final prediction
             _, predicted = torch.max(outputs, 1)
+            roc_auc_predictions = torch.softmax(outputs, 1)
             # add processed samples count to total tally
             total += labels.size(0)
             # compute number of correct samples
             correct += (predicted == labels).sum().item()
 
-    return 100 * correct/total, loss/iterations
+    return 100 * correct/total, loss/iterations, labels, predicted, roc_auc_predictions
 
 # copy of Dr. Santos' code
 def train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs, device, display=False, smooth=True):
@@ -59,7 +60,7 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
             if smooth:
               running_train_loss += loss.item() * features.size(0)  #* sum up batch losses
         # evaluate after each epoch
-        val_acc, val_loss = eval_model(model, val_loader, criterion)
+        val_acc, val_loss, _, _, _ = eval_model(model, val_loader, criterion)
         if smooth:
           epoch_train_loss = running_train_loss / len(train_loader.dataset) # * the mean loss so far
         if display:
