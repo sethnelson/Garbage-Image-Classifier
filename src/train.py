@@ -7,7 +7,7 @@ from torchvision.models import mobilenet_v3_large, MobileNet_V3_Large_Weights
 import torch.nn as nn
 import torch.optim as optim
 from cnn import train_model, eval_model
-from sklearn.metrics import precision_score, recall_score, roc_auc_score  
+from sklearn.metrics import precision_score, recall_score, roc_auc_score
 
 torch.manual_seed(45)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -18,7 +18,7 @@ if torch.cuda.is_available():
 batch_size = 128
 learning_rate = 0.001
 regularization = 0.0003
-epochs = 1
+epochs = 5
 
 all_images = ImageFolder(root='../data/images') # Thanks Michael V. for the tip https://docs.pytorch.org/vision/main/generated/torchvision.datasets.ImageFolder.html
 num_all_images = len(all_images) # number of images in full dataset
@@ -64,13 +64,16 @@ cnn_model, train_losses, val_losses, val_accs = train_model(mobilenet_v3_large,
                                                             epochs,
                                                             device,
                                                             display=True,
-                                                            smooth=True)
+                                                            smooth=False)
 
 test_acc, _, labels, predicted, roc_auc_predictions = eval_model(cnn_model, test_dl, criterion)
+labels_np = labels.cpu().numpy()
+predicted_np = predicted.cpu().numpy()
+roc_auc_predictions_np = roc_auc_predictions.cpu().numpy()
 print(f'Test Accuracy: {test_acc}')
-print(f'Precision: {precision_score(labels, predicted, average='weighted')}')
-print(f'Recall Score: {recall_score(labels, predicted, average='weighted')}')
-print(f'ROC AUC Score: {roc_auc_score(labels, roc_auc_predictions, average='weighted', multi_class='ovr')}')
+print(f'Precision: {precision_score(labels_np, predicted_np, average='weighted')}')
+print(f'Recall Score: {recall_score(labels_np, predicted_np, average='weighted')}')
+print(f'ROC AUC Score: {roc_auc_score(labels_np, roc_auc_predictions_np, average='weighted', multi_class='ovr')}')
 
 plt.figure(figsize=(8, 4))
 plt.plot(train_losses, label='Training Loss')
