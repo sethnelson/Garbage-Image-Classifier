@@ -1,6 +1,7 @@
 import shap
 import numpy as np
 import torch
+import matplotlib.pyplot as plt
 
 #Shap implementation
 #Used: https://medium.com/@oveis/easy-guide-using-shap-algorithm-to-explain-cnn-classification-of-sar-images-mstar-database-8138657585c8
