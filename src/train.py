@@ -128,4 +128,4 @@ print("Training finished.")
 X_train_shap, _ = next(iter(train_dl))
 X_test_shap, _ = next(iter(test_dl))
 
-shap_results, explainer = analyze_shap(cnn_model, X_train_shap, X_test_shap, num_samples = 16)
+shap_results, explainer = analyze_shap(cnn_model, X_train_shap, X_test_shap, 100, 10)

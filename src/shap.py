@@ -14,6 +14,7 @@ def analyze_shap(model, Xtrain, Xtest, numBackground = 100, numSamples = 10):
     testSamples = Xtest[:numSamples] #Get test samples
     shapValues = explainer.shap_values(testSamples) #Compute Shap
     shap.image_plot(shapValues, testSamples) #plot Shap
+    plt.savefig("../data/shap_plot.png", dpi=300, bbox_inches='tight') #save plot
 
     return shapValues, explainer
 
