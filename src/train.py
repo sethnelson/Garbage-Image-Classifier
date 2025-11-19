@@ -12,7 +12,7 @@ from sklearn.metrics import precision_score, recall_score, roc_auc_score
 from sklearn.metrics import confusion_matrix, classification_report
 import numpy as np
 import seaborn as sns
-from shap import analyze_shap
+from shap_ana import analyze_shap
 
 torch.manual_seed(45)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

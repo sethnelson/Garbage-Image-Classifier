@@ -1,4 +1,4 @@
-import shap
+import shap_ana
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
@@ -11,10 +11,10 @@ def analyze_shap(model, Xtrain, Xtest, numBackground = 100, numSamples = 10):
     #Sample background images
     background = Xtrain[np.random.choice(Xtrain.shape[0], numBackground, replace = False)]
 
-    explainer = shap.DeepExplainer(model, background) # Initialize the deepexplainer
+    explainer = shap_ana.DeepExplainer(model, background) # Initialize the deepexplainer
     testSamples = Xtest[:numSamples] #Get test samples
     shapValues = explainer.shap_values(testSamples) #Compute Shap
-    shap.image_plot(shapValues, testSamples) #plot Shap
+    shap_ana.image_plot(shapValues, testSamples) #plot Shap
     plt.savefig("../data/shap_plot.png", dpi=300, bbox_inches='tight') #save plot
 
     return shapValues, explainer
