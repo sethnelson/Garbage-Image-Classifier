@@ -9,6 +9,10 @@ import torch.optim as optim
 from cnn import train_model, eval_model
 from sklearn.metrics import precision_score, recall_score, roc_auc_score
 
+from sklearn.metrics import confusion_matrix, classification_report
+import numpy as np
+import seaborn as sns
+
 torch.manual_seed(45)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 if torch.cuda.is_available():
@@ -21,6 +25,7 @@ regularization = 0.0003
 epochs = 5
 
 all_images = ImageFolder(root='../data/images') # Thanks Michael V. for the tip https://docs.pytorch.org/vision/main/generated/torchvision.datasets.ImageFolder.html
+class_names = all_images.classes
 num_all_images = len(all_images) # number of images in full dataset
 num_train_images = int(0.7 * num_all_images) # training data is 70% of total
 num_VT_images = num_all_images - num_train_images # remaining 30% of total
@@ -70,10 +75,41 @@ test_acc, _, labels, predicted, roc_auc_predictions = eval_model(cnn_model, test
 labels_np = labels.cpu().numpy()
 predicted_np = predicted.cpu().numpy()
 roc_auc_predictions_np = roc_auc_predictions.cpu().numpy()
-print(f'Test Accuracy: {test_acc}')
-print(f'Precision: {precision_score(labels_np, predicted_np, average='weighted')}')
-print(f'Recall Score: {recall_score(labels_np, predicted_np, average='weighted')}')
-print(f'ROC AUC Score: {roc_auc_score(labels_np, roc_auc_predictions_np, average='weighted', multi_class='ovr')}')
+print(f"Test Accuracy: {test_acc}")
+print(f"Precision: {precision_score(labels_np, predicted_np, average='weighted')}")
+print(f"Recall Score: {recall_score(labels_np, predicted_np, average='weighted')}")
+print(f"ROC AUC Score: {roc_auc_score(labels_np, roc_auc_predictions_np, average='weighted', multi_class='ovr')}")
+
+cm = confusion_matrix(labels_np, predicted_np)
+cm_percentage = cm.astype('float') / cm.sum(axis=1, keepdims=True) #row normalized
+
+class_names = all_images.classes
+
+plt.figure(figsize=(8, 6))
+sns.heatmap(
+    cm_percentage,
+    annot=True,
+    fmt=".2f", #show percentages with 2 decimal places
+    cmap="Blues", #visual color map for better readability
+    xticklabels=class_names,
+    yticklabels=class_names
+)
+plt.xlabel("Predicted")
+plt.ylabel("Actual")
+plt.title(f"Percentage Confusion Matrix\nTest Accuracy: {test_acc:.2f}")
+plt.tight_layout()
+
+plt.savefig("../data/confusion_matrix_percentage.png") #save for presentation
+plt.show()
+
+report = classification_report(
+  labels_np,
+  predicted_np,
+  target_names=class_names, #use readable class names
+  digits=3 #float formatting
+)
+print("\nClassification Report:\n")
+print(report)
 
 plt.figure(figsize=(8, 4))
 plt.plot(train_losses, label='Training Loss')
