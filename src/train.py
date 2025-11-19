@@ -69,15 +69,15 @@ cnn_model, train_losses, val_losses, val_accs = train_model(mobilenet_v3_large,
                                                             epochs,
                                                             device,
                                                             display=True,
-                                                            smooth=False)
+                                                            smooth=True)
 
 test_acc, _, labels, predicted, roc_auc_predictions = eval_model(cnn_model, test_dl, criterion)
 labels_np = labels.cpu().numpy()
 predicted_np = predicted.cpu().numpy()
 roc_auc_predictions_np = roc_auc_predictions.cpu().numpy()
 print(f"Test Accuracy: {test_acc}")
-print(f"Precision: {precision_score(labels_np, predicted_np, average='weighted')}")
-print(f"Recall Score: {recall_score(labels_np, predicted_np, average='weighted')}")
+print(f"Precision:     {precision_score(labels_np, predicted_np, average='weighted')}")
+print(f"Recall Score:  {recall_score(labels_np, predicted_np, average='weighted')}")
 print(f"ROC AUC Score: {roc_auc_score(labels_np, roc_auc_predictions_np, average='weighted', multi_class='ovr')}")
 
 cm = confusion_matrix(labels_np, predicted_np)
@@ -121,5 +121,3 @@ plt.title('MLP Model Training and Validation Losses')
 plt.show()
 
 print("Training finished.")
-
-

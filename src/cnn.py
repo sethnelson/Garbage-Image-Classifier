@@ -50,7 +50,6 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
             # move tensors to the device
             features = features.to(device)
             labels = labels.to(device)
-            #model.to(device)
             # forward pass
             outputs = model(features)
             loss = criterion(outputs, labels)
@@ -66,10 +65,10 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
         if display:
             if smooth:
               print ('Epoch [{}/{}], Train Loss: {:.4f}, Val Loss: {:.4f}, ACC: {:.2f}'
-                      .format(epoch+1, num_epochs, running_train_loss, val_loss, val_acc))
+                    .format(epoch+1, num_epochs, epoch_train_loss, val_loss, val_acc))
             else:
               print ('Epoch [{}/{}], Train Loss: {:.4f}, Val Loss: {:.4f}, ACC: {:.2f}'
-                      .format(epoch+1, num_epochs, loss.item(), val_loss, val_acc))
+                    .format(epoch+1, num_epochs, loss.item(), val_loss, val_acc))
         #* append losses and validation accuracy after each epoch
         if smooth:
           train_losses.append(epoch_train_loss)
