@@ -22,7 +22,7 @@ if torch.cuda.is_available():
 batch_size = 128
 learning_rate = 0.001
 regularization = 0.0003
-epochs = 5
+epochs = 15
 
 all_images = ImageFolder(root='../data/images') # Thanks Michael V. for the tip https://docs.pytorch.org/vision/main/generated/torchvision.datasets.ImageFolder.html
 class_names = all_images.classes
@@ -71,7 +71,7 @@ cnn_model, train_losses, val_losses, val_accs = train_model(mobilenet_v3_large,
                                                             display=True,
                                                             smooth=True)
 
-test_acc, _, labels, predicted, roc_auc_predictions = eval_model(cnn_model, test_dl, criterion)
+test_acc, _, labels, predicted, roc_auc_predictions, _ = eval_model(cnn_model, test_dl, criterion)
 labels_np = labels.cpu().numpy()
 predicted_np = predicted.cpu().numpy()
 roc_auc_predictions_np = roc_auc_predictions.cpu().numpy()

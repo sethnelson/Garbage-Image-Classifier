@@ -1,7 +1,7 @@
 import torch
 
 # copy of Dr. Santos' code
-def eval_model(model, test_loader, critereon):
+def eval_model(model, test_loader, criterion):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     model.eval() # evaluation mode
@@ -11,6 +11,7 @@ def eval_model(model, test_loader, critereon):
     total = 0
     loss = 0
     iterations = 0
+    running_validation_loss = 0.0
 
     with torch.no_grad():
         for features, labels in test_loader:
@@ -20,8 +21,10 @@ def eval_model(model, test_loader, critereon):
             # forward pass
             outputs = model(features)
             #loss
-            loss += critereon(outputs, labels).item()
+            running_loss = criterion(outputs, labels)
+            loss += running_loss.item()
             iterations += 1
+            running_validation_loss += running_loss.item() * features.size(0)
             # final prediction
             _, predicted = torch.max(outputs, 1)
             roc_auc_predictions = torch.softmax(outputs, 1)
@@ -30,7 +33,7 @@ def eval_model(model, test_loader, critereon):
             # compute number of correct samples
             correct += (predicted == labels).sum().item()
 
-    return 100 * correct/total, loss/iterations, labels, predicted, roc_auc_predictions
+    return 100 * correct/total, loss/iterations, labels, predicted, roc_auc_predictions, running_validation_loss
 
 # copy of Dr. Santos' code
 def train_model(model, train_loader, val_loader, criterion, optimizer, num_epochs, device, display=False, smooth=True):
@@ -59,21 +62,23 @@ def train_model(model, train_loader, val_loader, criterion, optimizer, num_epoch
             if smooth:
               running_train_loss += loss.item() * features.size(0)  #* sum up batch losses
         # evaluate after each epoch
-        val_acc, val_loss, _, _, _ = eval_model(model, val_loader, criterion)
+        val_acc, val_loss, _, _, _, running_validation_loss = eval_model(model, val_loader, criterion)
         if smooth:
           epoch_train_loss = running_train_loss / len(train_loader.dataset) # * the mean loss so far
+          epoch_val_loss = running_validation_loss / len(val_loader.dataset)
         if display:
             if smooth:
               print ('Epoch [{}/{}], Train Loss: {:.4f}, Val Loss: {:.4f}, ACC: {:.2f}'
-                    .format(epoch+1, num_epochs, epoch_train_loss, val_loss, val_acc))
+                    .format(epoch+1, num_epochs, epoch_train_loss, epoch_val_loss, val_acc))
             else:
               print ('Epoch [{}/{}], Train Loss: {:.4f}, Val Loss: {:.4f}, ACC: {:.2f}'
                     .format(epoch+1, num_epochs, loss.item(), val_loss, val_acc))
         #* append losses and validation accuracy after each epoch
         if smooth:
           train_losses.append(epoch_train_loss)
+          val_losses.append(epoch_val_loss)
         else:
           train_losses.append(loss.item())
-        val_losses.append(val_loss)
+          val_losses.append(val_loss)
         val_accs.append(val_acc)
     return model, train_losses, val_losses, val_accs
