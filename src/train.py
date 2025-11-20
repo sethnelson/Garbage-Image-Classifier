@@ -12,7 +12,7 @@ from sklearn.metrics import precision_score, recall_score, roc_auc_score
 from sklearn.metrics import confusion_matrix, classification_report
 import numpy as np
 import seaborn as sns
-from shap_ana import analyze_shap
+from shap_ana import analyzeShap
 
 torch.manual_seed(45)
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -121,11 +121,7 @@ plt.legend()
 plt.title('MLP Model Training and Validation Losses')
 plt.show()
 
-print("Training finished.")
-
 #Shap Call
+analyzeShap(cnn_model, train_dl, test_dl, device, class_names)
 
-X_train_shap, _ = next(iter(train_dl))
-X_test_shap, _ = next(iter(test_dl))
-
-shap_results, explainer = analyze_shap(cnn_model, X_train_shap, X_test_shap, 100, 10)
+print("Training finished.")
