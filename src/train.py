@@ -82,7 +82,7 @@ print(f"Recall Score:  {recall_score(labels_np, predicted_np, average='weighted'
 print(f"ROC AUC Score: {roc_auc_score(labels_np, roc_auc_predictions_np, average='weighted', multi_class='ovr')}")
 
 cm = confusion_matrix(labels_np, predicted_np)
-cm_percentage = cm.astype('float') / cm.sum(axis=1, keepdims=True) * 100 #row normalized
+cm_percentage = cm.astype('float') / cm.sum(axis=1, keepdims=True) #row normalized
 
 class_names = all_images.classes
 
