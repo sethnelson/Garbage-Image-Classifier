@@ -82,7 +82,7 @@ print(f"Recall Score:  {recall_score(labels_np, predicted_np, average='weighted'
 print(f"ROC AUC Score: {roc_auc_score(labels_np, roc_auc_predictions_np, average='weighted', multi_class='ovr')}")
 
 cm = confusion_matrix(labels_np, predicted_np)
-cm_percentage = cm.astype('float') / cm.sum(axis=1, keepdims=True) #row normalized
+cm_percentage = cm.astype('float') / cm.sum(axis=1, keepdims=True) * 100 #row normalized
 
 class_names = all_images.classes
 
@@ -90,7 +90,7 @@ plt.figure(figsize=(8, 6))
 sns.heatmap(
     cm_percentage,
     annot=True,
-    fmt=".2f", #show percentages with 2 decimal places
+    fmt=".lf", #show percentages with 1 decimal place
     cmap="Blues", #visual color map for better readability
     xticklabels=class_names,
     yticklabels=class_names
