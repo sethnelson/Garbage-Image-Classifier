@@ -23,7 +23,7 @@ if torch.cuda.is_available():
 batch_size = 128
 learning_rate = 0.001
 regularization = 0.0003
-epochs = 15
+epochs = 1
 
 all_images = ImageFolder(root='../data/images') # Thanks Michael V. for the tip https://docs.pytorch.org/vision/main/generated/torchvision.datasets.ImageFolder.html
 class_names = all_images.classes
@@ -90,7 +90,7 @@ plt.figure(figsize=(8, 6))
 sns.heatmap(
     cm_percentage,
     annot=True,
-    fmt=".lf", #show percentages with 1 decimal place
+    fmt=".1f", #show percentages with 1 decimal place
     cmap="Blues", #visual color map for better readability
     xticklabels=class_names,
     yticklabels=class_names
