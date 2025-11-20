@@ -23,7 +23,7 @@ if torch.cuda.is_available():
 batch_size = 128
 learning_rate = 0.001
 regularization = 0.0003
-epochs = 1
+epochs = 15
 
 all_images = ImageFolder(root='../data/images') # Thanks Michael V. for the tip https://docs.pytorch.org/vision/main/generated/torchvision.datasets.ImageFolder.html
 class_names = all_images.classes
