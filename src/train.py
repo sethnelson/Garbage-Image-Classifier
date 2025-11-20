@@ -90,7 +90,7 @@ plt.figure(figsize=(8, 6))
 sns.heatmap(
     cm_percentage,
     annot=True,
-    fmt=".1f", #show percentages with 1 decimal place
+    fmt=".1%", #show percentages with 1 decimal place
     cmap="Blues", #visual color map for better readability
     xticklabels=class_names,
     yticklabels=class_names
